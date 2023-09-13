@@ -7,13 +7,13 @@ use Symfony\Component\HttpFoundation\Request;
 final class SorterFactory
 {
     public const ALLOWED_SORTING_ORDERS = [
-        'asc', 'desc'
+        'ASC', 'DESC'
     ];
 
     public function makeFromRequest(Request $request): Sorter
     {
         $key = $request->get('key');
-        $order = strtolower($request->get('order'));
+        $order = strtoupper($request->get('order'));
 
         return new Sorter(
             key: $key,

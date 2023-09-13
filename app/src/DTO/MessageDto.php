@@ -8,13 +8,11 @@ final class MessageDto
 {
     public function __construct(
         #[Assert\Uuid]
-        public string $uuid,
-        #[Assert\Email]
-        public string $email,
-        #[Assert\Length(min: 3, max: 255)]
+        public ?string $uuid,
+        #[Assert\Length(min: 3, max: 2056)]
         public string $content,
         #[Assert\DateTime]
-        public string $createdAt
+        public ?\DateTimeImmutable $createdAt
     )
     {
     }

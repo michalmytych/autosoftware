@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\DTO\MessageDto;
 use App\Sorter\SorterFactory;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,15 +26,20 @@ class MessageController extends AbstractController
     public function index(Request $request): JsonResponse
     {
         $sorter = $this->sorterFactory->makeFromRequest($request);
-        $messages = $this->messageService->findAll($sorter);
+        $pagination = $this->messageService->getPaginatedList($sorter);
 
         return new JsonResponse([
-            'data' => $messages
+            'data' => $pagination->getItems(),
+            'meta' => [
+                'page' => $pagination->getCurrentPageNumber(),
+                'per_page' => $pagination->getItemNumberPerPage(),
+                'total' => $pagination->getTotalItemCount(),
+            ]
         ]);
     }
 
     #[Route(
-        '/{id}',
+        '/{uuid}',
         name: 'message_show',
         requirements: ['id' => '[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}'],
         methods: 'GET'
@@ -56,10 +60,9 @@ class MessageController extends AbstractController
     public function create(Request $request): JsonResponse
     {
         $messageDto = new MessageDto(
-            uuid: Uuid::v4(),
-            email: $request->get('email'),
+            uuid: null,
             content: $request->get('content'),
-            createdAt: new \DateTimeImmutable(),
+            createdAt: null,
         );
 
         $messageDto = $this->messageService->save($messageDto);
