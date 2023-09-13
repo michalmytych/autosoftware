@@ -26,7 +26,10 @@ class MessageController extends AbstractController
     public function index(Request $request): JsonResponse
     {
         $sorter = $this->sorterFactory->makeFromRequest($request);
-        $pagination = $this->messageService->getPaginatedList($sorter);
+        $pagination = $this->messageService->getPaginatedList(
+            $sorter,
+            $request->get('page', 1)
+        );
 
         return new JsonResponse([
             'data' => $pagination->getItems(),

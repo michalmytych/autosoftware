@@ -12,12 +12,12 @@ final class SorterFactory
 
     public function makeFromRequest(Request $request): Sorter
     {
-        $key = $request->get('key');
-        $order = strtoupper($request->get('order'));
+        $key = $request->get('sorterKey');
+        $order = strtoupper($request->get('sorterOrder'));
 
         return new Sorter(
             key: $key,
-            order: $order ? in_array($order, self::ALLOWED_SORTING_ORDERS) : null,
+            order: in_array($order, self::ALLOWED_SORTING_ORDERS) ? $order : null,
         );
     }
 }

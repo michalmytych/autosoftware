@@ -13,6 +13,11 @@ class MessageRepository extends ServiceEntityRepository
 {
     const PAGINATOR_ITEMS_PER_PAGE = 25;
 
+    const AVAILABLE_SORTER_LEXERS = [
+        'id',
+        'createdAt'
+    ];
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Message::class);
@@ -36,12 +41,23 @@ class MessageRepository extends ServiceEntityRepository
         return $this
             ->getOrCreateQueryBuilder()
             ->select('message.id', 'message.createdAt', 'message.relativeFilePath')
-            ->orderBy($sorter->key ?? 'message.createdAt', $sorter->order ?? 'DESC');
+            ->orderBy(
+                'message.'.$this->prepareSortingLexer($sorter->key),
+                $sorter->order
+            );
     }
 
     /** @noinspection PhpSameParameterValueInspection */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('message');
+    }
+
+    /** @noinspection PhpSameParameterValueInspection */
+    private function prepareSortingLexer(?string $columnProvided = null): string
+    {
+        return in_array($columnProvided, self::AVAILABLE_SORTER_LEXERS)
+            ? $columnProvided
+            : 'createdAt';
     }
 }

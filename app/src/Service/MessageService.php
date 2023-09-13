@@ -15,8 +15,8 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 class MessageService implements MessageServiceInterface
 {
     public function __construct(
-        private readonly UuidFactory        $uuidFactory,
         private readonly PaginatorInterface $paginator,
+        private readonly UuidFactory        $uuidFactory,
         private readonly MessageRepository  $messageRepository,
         private readonly MessageFileService $messageFileService
     )
@@ -33,12 +33,7 @@ class MessageService implements MessageServiceInterface
 
         $items = [];
         foreach ($pagination->getItems() as $messageRecord) {
-            /** @var array $messageRecord */
-            $items[] = new MessageDto(
-                uuid: $messageRecord['id'],
-                content: ['TEST CONTENT'],
-                createdAt: $messageRecord['createdAt']
-            );
+            $items[] = $this->getMessageDtoFromPaginationRecord($messageRecord);
         }
 
         $pagination->setItems($items);
@@ -54,9 +49,14 @@ class MessageService implements MessageServiceInterface
             return null;
         }
 
+        /** @var Message $message */
+        $fileContents = $this->messageFileService->getTextFileContents(
+            $message->getRelativeFilePath()
+        );
+
         return new MessageDto(
             uuid: $message->getId(),
-            content: ['TEST CONTENT'],
+            content: json_decode($fileContents, true),
             createdAt: $message->getCreatedAt(),
         );
     }
@@ -78,12 +78,12 @@ class MessageService implements MessageServiceInterface
         $this->messageRepository->inTransaction(function () use (
             &$message, $messageContent, $relativeFilePath
         ) {
+            $message = $this->messageRepository->save($message);
+
             $this->messageFileService->storeTextFile(
                 $messageContent,
                 $relativeFilePath
             );
-
-            $message = $this->messageRepository->save($message);
         });
 
         return new MessageDto(
@@ -92,4 +92,19 @@ class MessageService implements MessageServiceInterface
             createdAt: $message->getCreatedAt()
         );
     }
+
+    private function getMessageDtoFromPaginationRecord(array $messageRecord): MessageDto
+    {
+        $fileContents = $this->messageFileService->getTextFileContents(
+            $messageRecord['relativeFilePath']
+        );
+
+        /** @var array $messageRecord */
+        return new MessageDto(
+            uuid: $messageRecord['id'],
+            content: json_decode($fileContents, true),
+            createdAt: $messageRecord['createdAt']
+        );
+    }
+
 }
