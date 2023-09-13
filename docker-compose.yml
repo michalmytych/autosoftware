@@ -9,6 +9,7 @@ services:
         volumes:
           - .docker/config/vhosts:/etc/apache2/sites-enabled
           - ./app:/home/wwwroot/app
+          - ./ui:/home/wwwroot/ui
         depends_on:
           - php
 

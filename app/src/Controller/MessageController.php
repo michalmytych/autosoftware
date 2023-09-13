@@ -9,14 +9,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Service\Interface\MessageServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Requirement\Requirement;
 
 #[Route('/messages')]
 class MessageController extends AbstractController
 {
     public function __construct(
-        private readonly SorterFactory $sorterFactory,
+        private readonly SorterFactory           $sorterFactory,
         private readonly MessageServiceInterface $messageService
-    ) {}
+    )
+    {
+    }
 
     #[Route(
         '/',
@@ -44,7 +47,7 @@ class MessageController extends AbstractController
     #[Route(
         '/{uuid}',
         name: 'message_show',
-        requirements: ['id' => '[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}'],
+        requirements: ['id' => Requirement::UUID_V6],
         methods: 'GET'
     )]
     public function show(string $uuid): JsonResponse
