@@ -69,7 +69,7 @@ class MessageController extends AbstractController
 
         return new JsonResponse([
             'data' => [
-                'uuid' => $messageDto->uuid
+                'id' => $messageDto->uuid
             ]
         ], 201);
     }

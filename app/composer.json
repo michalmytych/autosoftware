@@ -43,7 +43,8 @@
         "symfony/web-link": "6.3.*",
         "symfony/yaml": "6.3.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "symfony/filesystem": "6.3.*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
