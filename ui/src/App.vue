@@ -23,14 +23,12 @@
 <script>
 import MessagesList from './components/MessagesList.vue'
 import DxButton from "devextreme-vue/button";
-import {DxEmptyItem} from "devextreme-vue/form";
 import {DxTextArea} from "devextreme-vue";
 
 export default {
   name: 'App',
   components: {
     MessagesList,
-    DxEmptyItem,
     DxTextArea,
     DxButton,
   },

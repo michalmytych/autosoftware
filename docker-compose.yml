@@ -9,7 +9,6 @@ services:
         volumes:
           - .docker/config/vhosts:/etc/apache2/sites-enabled
           - ./app:/home/wwwroot/app
-          - ./ui:/home/wwwroot/ui
         depends_on:
           - php
 
@@ -35,6 +34,15 @@ services:
         depends_on:
           - maildev
           - mysql
+
+    app:
+        build: .docker/vue
+        container_name: vue_ui
+        ports:
+          - '8081:8080'
+        volumes:
+          - ./ui:/ui
+        command: 'yarn serve'
 
     maildev:
         image: djfarrelly/maildev

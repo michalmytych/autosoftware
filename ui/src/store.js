@@ -44,10 +44,11 @@ const store = new Vuex.Store({
                     console.error('Error while fetching messages:', error);
                 })
         },
-        createMessage({commit, dispatch}, payload = {}) {
+        createMessage({dispatch}, payload = {}) {
             return axios.post(`${apiRootUri}/messages`, JSON.stringify(payload))
                 .then(response => {
                     dispatch('fetchMessages');
+                    return response;
                 })
                 .catch(error => {
                     if (error) {
