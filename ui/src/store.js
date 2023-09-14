@@ -14,8 +14,14 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-        fetchMessages({commit}) {
-            return axios.get('http://localhost:8000/messages')
+        fetchMessages({commit}, payload = {}) {
+            return axios.get('http://localhost:8000/messages', {
+                params: {
+                    page: payload.page ?? 1,
+                    sorterOrder: payload.sorterOrder ?? 'DESC',
+                    sorterKey: payload.sorterKey ?? 'createdAt',
+                },
+            })
                 .then(response => {
                     commit('SET_MESSAGES', response.data);
                 })
