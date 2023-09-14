@@ -3,9 +3,10 @@
 namespace App\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
+use App\Service\Interface\MessageFileServiceInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class MessageFileService
+class MessageFileService implements MessageFileServiceInterface
 {
     public function __construct(
         private readonly Filesystem $filesystem,

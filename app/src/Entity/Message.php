@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Uid\Uuid;
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MessageRepository;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
-use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 #[ORM\Table('messages')]

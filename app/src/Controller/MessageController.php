@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\DTO\MessageDto;
 use App\Sorter\SorterFactory;
+use App\Requests\MessageCreateRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Service\Interface\MessageServiceInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/messages')]
 class MessageController extends AbstractController
@@ -63,11 +64,13 @@ class MessageController extends AbstractController
         name: 'message_create',
         methods: 'POST'
     )]
-    public function create(Request $request): JsonResponse
+    public function create(MessageCreateRequest $request): JsonResponse
     {
+        $request->validate();
+
         $messageDto = new MessageDto(
             uuid: null,
-            content: $request->get('content'),
+            content: $request->content,
             createdAt: null,
         );
 

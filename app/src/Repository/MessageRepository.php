@@ -2,16 +2,16 @@
 
 namespace App\Repository;
 
-use App\Entity\Message;
 use App\Sorter\Sorter;
-use Doctrine\ORM\EntityManager;
+use App\Entity\Message;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class MessageRepository extends ServiceEntityRepository
 {
-    const PAGINATOR_ITEMS_PER_PAGE = 25;
+    const PAGINATOR_ITEMS_PER_PAGE = 20;
 
     const AVAILABLE_SORTER_LEXERS = [
         'id',

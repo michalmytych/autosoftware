@@ -9,16 +9,17 @@ use App\Repository\MessageRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Uid\Factory\UuidFactory;
 use App\Service\Interface\MessageServiceInterface;
+use App\Service\Interface\MessageFileServiceInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class MessageService implements MessageServiceInterface
 {
     public function __construct(
-        private readonly PaginatorInterface $paginator,
-        private readonly UuidFactory        $uuidFactory,
-        private readonly MessageRepository  $messageRepository,
-        private readonly MessageFileService $messageFileService
+        private readonly PaginatorInterface          $paginator,
+        private readonly UuidFactory                 $uuidFactory,
+        private readonly MessageRepository           $messageRepository,
+        private readonly MessageFileServiceInterface $messageFileService
     )
     {
     }
@@ -106,5 +107,4 @@ class MessageService implements MessageServiceInterface
             createdAt: $messageRecord['createdAt']
         );
     }
-
 }
