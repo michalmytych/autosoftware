@@ -35,14 +35,14 @@ services:
           - maildev
           - mysql
 
-    app:
+    vue:
         build: .docker/vue
         container_name: vue_ui
         ports:
           - '8081:8080'
         volumes:
           - ./ui:/ui
-        command: 'yarn serve'
+        command: sh -c "yarn install && yarn serve"
 
     maildev:
         image: djfarrelly/maildev

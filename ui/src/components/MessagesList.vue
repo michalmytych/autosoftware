@@ -97,6 +97,7 @@ export default {
     },
   },
   mounted() {
+    console.log(process.env)
     this.$store.dispatch('fetchMessages', {page: 1});
   },
 };

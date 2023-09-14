@@ -8,4 +8,4 @@ WORKDIR ../../ui
 
 COPY . /ui
 
-CMD [ "yarn", "serve" ]
+#CMD [ "yarn", "serve" ]
