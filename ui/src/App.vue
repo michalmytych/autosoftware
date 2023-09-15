@@ -9,11 +9,14 @@
             @input="validateJson"
         />
         <div v-if="error" style="color: red;">{{ error }}</div>
-        <DxButton
-            text="Create"
-            :disabled="!isValidJson"
-            @click="sendMessage"
-        />
+        <div style="display: flex; align-items: center; padding-top: 1rem; justify-content: end;">
+          <div v-if="!isValidJson" style="color: red; padding-left: 1rem;">Json is invalid!</div>
+          <DxButton
+              text="Send"
+              :disabled="!isValidJson"
+              @click="sendMessage"
+          />
+        </div>
       </div>
     </div>
     <MessagesList/>
@@ -34,7 +37,7 @@ export default {
   },
   data() {
     return {
-      messageContent: '{"key": "Some value"}',
+      messageContent: '{"message": "Hello world!"}',
       isValidJson: true
     };
   },
@@ -45,6 +48,8 @@ export default {
   },
   methods: {
     sendMessage() {
+      this.validateJson();
+      if (!this.isValidJson) return;
       this.$store.dispatch('createMessage', {
         content: this.messageContent
       });

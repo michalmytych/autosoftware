@@ -51,9 +51,6 @@ const store = new Vuex.Store({
                     return response;
                 })
                 .catch(error => {
-                    if (error) {
-                        alert(error)
-                    }
                     console.error('Error while creating message:', error);
                 })
         }
