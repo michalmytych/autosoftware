@@ -7,7 +7,9 @@ docker-compose up --build
 # After containers are built, in another shell session perform this command to enter php container:
 docker-compose exec php bash
 # Now, being in php container:
-cd app && composer install
+cd app
+composer install
+bin/console doctrine:migrations:migrate
 ```
 ### Note!
 Vue app may be up with slight delay, as it is building quite few modules:
