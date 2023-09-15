@@ -1,1 +1,1 @@
-export const apiRootUri = 'http://symfony_php:8001'
+export const apiRootUri = 'http://localhost:8000'; // move to .env

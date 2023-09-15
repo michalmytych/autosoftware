@@ -7,5 +7,3 @@ RUN mkdir /ui
 WORKDIR ../../ui
 
 COPY . /ui
-
-#CMD [ "yarn", "serve" ]
