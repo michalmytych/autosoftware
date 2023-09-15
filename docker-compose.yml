@@ -29,14 +29,14 @@ services:
         container_name: symfony_php
         volumes:
           - ./app:/home/wwwroot/app
-        environment:
-          - maildev_host=symfony_maildev
         depends_on:
-          - maildev
           - mysql
 
-    maildev:
-        image: djfarrelly/maildev
-        container_name: symfony_maildev
+    vue:
+        build: .docker/vue
+        container_name: vue_ui
         ports:
-          - "8001:80"
+          - '8081:8080'
+        volumes:
+          - ./ui:/ui
+        command: sh -c "yarn install && yarn serve"
